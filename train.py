@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # Import backend without the "Using X Backend" message
 stderr = sys.stderr
 sys.stderr = open(os.devnull, 'w')
-from keras import backend as K
+from tensorflow.keras import backend as K
 sys.stderr = stderr
 
 from libs.srgan import SRGAN
@@ -34,7 +34,8 @@ def parse_args():
 
     parser.add_argument(
         '-stage', '--stage',
-        type=str, default='all',
+        type=str,
+        default='all',
         help='Which stage of training to run',
         choices=['all', 'mse', 'gan', 'gan-finetune']
     )
@@ -42,18 +43,21 @@ def parse_args():
     parser.add_argument(
         '-train', '--train',
         type=str,
+        default='D:\Datasets\BSR_bsds500\BSR\BSDS500\data\images\train',
         help='Folder with training images'
     )
     
     parser.add_argument(
         '-validation', '--validation',
         type=str,
+        default='D:\Datasets\BSR_bsds500\BSR\BSDS500\data\images\val',
         help='Folder with validation images'
     )
 
     parser.add_argument(
         '-test', '--test',
-        type=str, default='./images/samples_HR',
+        type=str,
+        default='D:\Datasets\BSR_bsds500\BSR\BSDS500\data\images\test', #'./images/samples_HR',
         help='Folder with testing images'
     )
         
@@ -65,7 +69,7 @@ def parse_args():
         
     parser.add_argument(
         '-scale', '--scale',
-        type=int, default=2,
+        type=int, default=4,
         help='How much should we upscale images'
     )
 
@@ -95,7 +99,7 @@ def parse_args():
             
     parser.add_argument(
         '-test_path', '--test_path',
-        type=str, default='./images/samples_2X/',
+        type=str, default='./images/samples_4X/',
         help='Where to output test images during training'
     )
         
@@ -229,7 +233,7 @@ if __name__ == '__main__':
         else:
 
             # As in paper - train for 10 epochs
-            gan = SRGAN(upscaling_factor=args.scale)    
+            gan = SRGAN(height_lr=56, width_lr=56, upscaling_factor=args.scale)    
             generator_train(args, gan, common, 10)        
 
     ## SECOND STAGE: TRAINING GAN WITH HIGH LEARNING RATE
@@ -237,7 +241,7 @@ if __name__ == '__main__':
 
     # Re-initialize & train the GAN - load just created generator weights
     if args.stage in ['all', 'gan']:
-        gan = SRGAN(upscaling_factor=args.scale)
+        gan = SRGAN(height_lr=56, width_lr=56, upscaling_factor=args.scale)
         gan.load_weights(srresnet_path)
         gan_train(args, gan, common, 1000000)
 

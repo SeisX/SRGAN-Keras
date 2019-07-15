@@ -3,7 +3,7 @@ import gc
 import numpy as np
 from PIL import Image
 from random import choice
-from keras.utils import Sequence
+from tensorflow.keras.utils import Sequence
 
 try:
     import matplotlib.pyplot as plt

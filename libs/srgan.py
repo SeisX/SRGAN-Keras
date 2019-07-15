@@ -10,16 +10,16 @@ import numpy as np
 stderr = sys.stderr
 sys.stderr = open(os.devnull, 'w')
 import tensorflow as tf
-from keras.models import Sequential, Model
-from keras.layers import Input, Activation, Add
-from keras.layers import BatchNormalization, LeakyReLU, PReLU, Conv2D, Dense
-from keras.layers import UpSampling2D, Lambda
-from keras.optimizers import Adam
-from keras.applications import VGG19
-from keras.applications.vgg19 import preprocess_input
-from keras.utils.data_utils import OrderedEnqueuer
-from keras import backend as K
-from keras.callbacks import TensorBoard, ModelCheckpoint, LambdaCallback
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Input, Activation, Add
+from tensorflow.keras.layers import BatchNormalization, LeakyReLU, PReLU, Conv2D, Dense
+from tensorflow.keras.layers import UpSampling2D, Lambda
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.applications import VGG19
+from tensorflow.keras.applications.vgg19 import preprocess_input
+from tensorflow.keras.utils import OrderedEnqueuer
+from tensorflow.keras import backend as K
+from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, LambdaCallback
 sys.stderr = stderr
 
 from libs.util import DataLoader, plot_test_images
